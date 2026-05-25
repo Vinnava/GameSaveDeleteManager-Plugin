@@ -24,6 +24,17 @@ public:
 
 private:
 
+    // ─── Styling ─────────────────────────────────────────────────────────────
+
+    /** Custom toolbar button style. Must be a member — Slate stores a raw pointer
+     *  to it via .ButtonStyle() and reads it on every OnPaint() call. */
+    FButtonStyle buttonStyle;
+
+    /** Per-state rounded brushes — owned here so pointers in buttonStyle stay valid. */
+    FSlateBrush brushNormal;
+    FSlateBrush brushHovered;
+    FSlateBrush brushPressed;
+
     // ─── Dropdown ────────────────────────────────────────────────────────────
 
     /** Builds the dropdown menu content shown when the arrow is clicked. */

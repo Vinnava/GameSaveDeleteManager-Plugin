@@ -26,11 +26,42 @@ DEFINE_LOG_CATEGORY(LogGameSaveDeleteManager);
 
 void SGameSaveDeleteManagerToolbar::Construct(const FArguments& inArgs)
 {
+    // ── Custom button style ───────────────────────────────────────────────────
+    // All brushes written to members — Slate stores raw pointers and reads them
+    // on every OnPaint(). Stack locals would be destroyed after Construct() returns.
+    buttonStyle = FAppStyle::Get().GetWidgetStyle<FButtonStyle>(
+        "EditorViewportToolBar.ComboMenu.Button");
+
+    // Shared colour constants
+    const FLinearColor iconColor(0.753f, 0.753f, 0.753f, 1.f); // #c0c0c0
+
+    // Matches Pixel Streaming toolbar button exactly:
+    //   Normal  — fully transparent, blends into toolbar background
+    //   Hovered — subtle rounded rect fill, same as UE5 toolbar hover convention
+    //   Pressed — slightly darker than hovered
+    auto MakeRoundedBrush = [](const FLinearColor& fillColor) -> FSlateBrush
+    {
+        FSlateBrush brush;
+        brush.DrawAs    = ESlateBrushDrawType::RoundedBox;
+        brush.TintColor = FSlateColor(fillColor);
+        brush.OutlineSettings.CornerRadii  = FVector4(4.f, 4.f, 4.f, 4.f);
+        brush.OutlineSettings.RoundingType = ESlateBrushRoundingType::FixedRadius;
+        brush.OutlineSettings.bUseBrushTransparency = false;
+        return brush;
+    };
+
+    brushNormal  = MakeRoundedBrush(FLinearColor(0.f,    0.f,    0.f,    0.f));  // fully transparent
+    brushHovered = MakeRoundedBrush(FLinearColor(1.f,    1.f,    1.f,    0.08f)); // white @8% — matches UE5 toolbar hover tint
+    brushPressed = MakeRoundedBrush(FLinearColor(0.f,    0.f,    0.f,    0.15f)); // dark @15% — slight press depression
+
+    buttonStyle.Normal  = brushNormal;
+    buttonStyle.Hovered = brushHovered;
+    buttonStyle.Pressed = brushPressed;
+
     ChildSlot
     [
         SNew(SComboButton)
-        // Match the "Play" toolbar button style — same pill shape as Pixel Streaming
-        .ButtonStyle(FAppStyle::Get(), "EditorViewportToolBar.ComboMenu.Button")
+        .ButtonStyle(&buttonStyle)
         .ToolTipText(NSLOCTEXT("GameSaveDeleteManager", "ComboTip",
             "Delete save game files.\nClick arrow to configure slots or open settings."))
         .HasDownArrow(true)
@@ -38,28 +69,36 @@ void SGameSaveDeleteManagerToolbar::Construct(const FArguments& inArgs)
         .ContentPadding(FMargin(6.f, 2.f))
         .ButtonContent()
         [
-            SNew(SHorizontalBox)
-
-            // ── Trash icon ────────────────────────────────────────────────────
-            + SHorizontalBox::Slot()
-            .AutoWidth()
-            .VAlign(VAlign_Center)
-            .Padding(0.f, 0.f, 4.f, 0.f)
-            [
-                SNew(SImage)
-                .Image(FAppStyle::GetBrush("Icons.Delete"))
-                .DesiredSizeOverride(FVector2D(14.f, 14.f))
-                .ColorAndOpacity(FSlateColor(FLinearColor(1.f, 0.35f, 0.35f, 1.f)))
-            ]
-
-            // ── Label ─────────────────────────────────────────────────────────
-            + SHorizontalBox::Slot()
-            .AutoWidth()
+            // SBox forces the inner HorizontalBox to center within the button area.
+            // HAlign on SComboButton itself doesn't penetrate its internal arrow layout.
+            SNew(SBox)
+            .HAlign(HAlign_Center)
             .VAlign(VAlign_Center)
             [
-                SNew(STextBlock)
-                .Text(NSLOCTEXT("GameSaveDeleteManager", "DeleteBtnLabel", "Del Saves"))
-                .TextStyle(FAppStyle::Get(), "EditorViewportToolBar.ComboMenu.TextStyle")
+                SNew(SHorizontalBox)
+
+                // ── Trash icon ────────────────────────────────────────────────────
+                + SHorizontalBox::Slot()
+                .AutoWidth()
+                .VAlign(VAlign_Center)
+                .Padding(0.f, 0.f, 4.f, 0.f)
+                [
+                    SNew(SImage)
+                    .Image(FAppStyle::GetBrush("Icons.Delete"))
+                    .DesiredSizeOverride(FVector2D(14.f, 14.f))
+                    .ColorAndOpacity(FSlateColor(iconColor))
+                ]
+
+                // ── Label — same colour as icon (#c0c0c0) ─────────────────────────
+                + SHorizontalBox::Slot()
+                .AutoWidth()
+                .VAlign(VAlign_Center)
+                [
+                    SNew(STextBlock)
+                    .Text(NSLOCTEXT("GameSaveDeleteManager", "DeleteBtnLabel", "Del Saves"))
+                    .TextStyle(FAppStyle::Get(), "EditorViewportToolBar.ComboMenu.TextStyle")
+                    .ColorAndOpacity(FSlateColor(iconColor))
+                ]
             ]
         ]
     ];
@@ -96,12 +135,22 @@ TSharedRef<SWidget> SGameSaveDeleteManagerToolbar::BuildDropdownContent()
         ? NSLOCTEXT("GameSaveDeleteManager", "ModeAll",       "Mode: Delete ALL saves")
         : NSLOCTEXT("GameSaveDeleteManager", "ModeSelective", "Mode: Delete selected slots");
 
-    menuBuilder.AddMenuEntry(
-        modeLabel,
-        NSLOCTEXT("GameSaveDeleteManager", "ModeDesc",
-            "Change this in Project Settings → Plugins → Game Save Delete Manager"),
-        FSlateIcon(),
-        FUIAction()
+    // Render as non-interactive text — not a clickable button entry
+    menuBuilder.AddWidget(
+        SNew(SBox)
+        .Padding(FMargin(8.f, 4.f))
+        .HAlign(HAlign_Center)
+        [
+            SNew(STextBlock)
+            .Text(modeLabel)
+            .TextStyle(FAppStyle::Get(), "Menu.Label")
+            .Justification(ETextJustify::Center)
+            .ColorAndOpacity(FSlateColor(FLinearColor(0.753f, 0.753f, 0.753f, 1.f))) // #c0c0c0 — matches icon & label
+            .ToolTipText(NSLOCTEXT("GameSaveDeleteManager", "ModeDesc",
+                "Change this in Project Settings → Plugins → Game Save Delete Manager"))
+        ],
+        FText::GetEmpty(),
+        /*bNoIndent=*/ true
     );
 
     menuBuilder.AddSeparator();
