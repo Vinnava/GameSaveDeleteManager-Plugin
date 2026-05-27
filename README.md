@@ -159,11 +159,4 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 ---
 
-## 👤 Author
-
-**Vinnava**
-- GitHub: [@Vinnava](https://github.com/Vinnava)
-
----
-
 _If this plugin saved you time, consider leaving a ⭐ on the repository._
