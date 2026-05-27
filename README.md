@@ -4,7 +4,7 @@
 
 [![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine-5.7-0e1128?logo=unrealengine&logoColor=white)](https://www.unrealengine.com/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/github/v/release/Vinnava/GameSaveDeleteManager?label=release)](https://github.com/Vinnava/GameSaveDeleteManager/releases)
+[![Version](https://img.shields.io/github/v/release/Vinnava/GameSaveDeleteManager-Plugin?label=release)](https://github.com/Vinnava/GameSaveDeleteManager-Plugin/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/Vinnava/GameSaveDeleteManager)
 
 ---
