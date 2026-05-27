@@ -2,7 +2,7 @@
 
 > **An Unreal Engine editor plugin that puts a one-click "Delete Saves" button right next to the Play button — so you never have to dig through the file system during development again.**
 
-[![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine-5.7-0e1128?logo=unrealengine&logoColor=white)](https://www.unrealengine.com/)
+[![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine-5-0e1128?logo=unrealengine&logoColor=white)](https://www.unrealengine.com/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/github/v/release/Vinnava/GameSaveDeleteManager-Plugin?label=release)](https://github.com/Vinnava/GameSaveDeleteManager-Plugin/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/Vinnava/GameSaveDeleteManager)
@@ -99,7 +99,7 @@ Click the **arrow** on the right side of the button to open the dropdown:
 
 ## 🔧 Requirements
 
-- **Unreal Engine 5.x** (developed and tested on UE 5.3+)
+- **Unreal Engine 5** (developed and tested on UE 5.4+)
 - **C++ project** — a Blueprint-only project must be converted to C++ first
 - Target platform: **Editor only** (Windows, macOS, Linux)
 
