@@ -40,6 +40,7 @@ The dropdown arrow reveals every `.sav` file discovered in your project's save d
 
 1. Download the latest `.zip` from the [Releases](https://github.com/Vinnava/GameSaveDeleteManager/releases) page.
 2. Extract and copy the `GameSaveDeleteManager` folder into your project's `Plugins/` directory.
+   
    ```
    YourProject/
    └── Plugins/
@@ -47,9 +48,9 @@ The dropdown arrow reveals every `.sav` file discovered in your project's save d
            ├── GameSaveDeleteManager.uplugin
            └── Source/
    ```
-3. Right-click your `.uproject` file → **Generate Visual Studio project files**.
-4. Open the project. Unreal will prompt you to build the new plugin — click **Yes**.
-5. The **Del Saves** button will appear in the Level Editor toolbar.
+4. Right-click your `.uproject` file → **Generate Visual Studio project files**.
+5. Open the project. Unreal will prompt you to build the new plugin — click **Yes**.
+6. The **Del Saves** button will appear in the Level Editor toolbar.
 
 ### Option B — Engine plugins folder
 
