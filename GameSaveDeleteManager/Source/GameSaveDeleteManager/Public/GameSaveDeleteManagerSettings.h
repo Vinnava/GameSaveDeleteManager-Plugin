@@ -1,3 +1,5 @@
+// Copyright 2025 Vinnava. All Rights Reserved.
+
 #pragma once
 
 #include "CoreMinimal.h"

@@ -1,3 +1,5 @@
+// Copyright 2025 Vinnava. All Rights Reserved.
+
 #include "GameSaveDeleteManagerSettings.h"
 #include "Misc/Paths.h"
 
