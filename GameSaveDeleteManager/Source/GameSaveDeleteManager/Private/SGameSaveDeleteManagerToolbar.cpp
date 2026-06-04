@@ -1,3 +1,5 @@
+// Copyright 2025 Vinnava. All Rights Reserved.
+
 #include "SGameSaveDeleteManagerToolbar.h"
 #include "GameSaveDeleteManagerSettings.h"
 
