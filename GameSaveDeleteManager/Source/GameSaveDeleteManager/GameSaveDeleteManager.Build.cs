@@ -1,3 +1,5 @@
+// Copyright 2025 Vinnava. All Rights Reserved.
+
 using UnrealBuildTool;
 
 public class GameSaveDeleteManager : ModuleRules
